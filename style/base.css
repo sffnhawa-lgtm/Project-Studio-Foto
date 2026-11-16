@@ -1,0 +1,14 @@
+/* File: ui/style/base.css - gaya umum semua halaman */
+body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); }
+
+/* Cetak struk: hanya tampilkan modal struk */
+@media print {
+    body > *:not(#receipt-modal) { display: none !important; }
+    #receipt-modal { position: static !important; background: none !important; backdrop-filter: none !important; padding: 0 !important; }
+    #receipt-modal .no-print { display: none !important; }
+}
