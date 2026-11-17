@@ -1,5 +1,6 @@
 <?php
-    include("connection.php");
+    include_once("connection.php");
+    include_once("includes/helpers.php");
 
     $bookings = $connect->query( "
         SELECT 
@@ -26,19 +27,19 @@
     $hitung_studio    = [];
     $sesi_fotografer  = 0;
 
-    foreach ($bookings as $b) {
+    foreach ($bookings as $b){
         $total_pendapatan += $b['total_harga'];
 
         $nama_st = $b['nama_studio'];
         $hitung_studio[$nama_st] = ($hitung_studio[$nama_st] ?? 0) + 1;
 
-        if (stripos($b['detail_addons'], 'Fotografer') !== false) {
+        if (stripos($b['detail_addons'], 'Fotografer') !== false){
             $sesi_fotografer++;
         }
     }
 
     $studio_favorit = '-';
-    if (!empty($hitung_studio)) {
+    if (!empty($hitung_studio)){
         arsort($hitung_studio);
         $studio_favorit = array_key_first($hitung_studio);
     }
@@ -46,13 +47,15 @@
     $persen_fotografer = $total_pesanan > 0 
         ? round(($sesi_fotografer / $total_pesanan) * 100) 
         : 0;
+
+    $stats = [
+        ['Total Pendapatan',       rupiah($total_pendapatan),       'stat-value',    'icon-emerald', 'fa-money-bill-wave', 'stat-revenue'],
+        ['Total Pemesanan',        $total_pesanan . ' Transaksi',   'stat-value',    'icon-rose',    'fa-calendar-check',  'stat-total-booking'],
+        ['Studio Terfavorit',      $studio_favorit,                 'stat-value-sm', 'icon-violet',  'fa-crown',           'stat-fav-studio'],
+        ['Penggunaan Fotografer',  $persen_fotografer . '% Sesi',   'stat-value',    'icon-amber',   'fa-camera',          'stat-photographer'],
+    ];
 ?>
 
-
-<head>
-    <link rel="stylesheet" href="style/admin.css">
-    <title>Document</title>
-</head>
 
 <div id="admin-dashboard-view" class="admin-dashboard">
     <!-- Session Active Header Badge -->
@@ -63,7 +66,7 @@
             </div>
             <div>
                 <h4 class="session-title">Statistik & Manajemen Booking</h4>
-                <p class="session-subtext">Login sebagai: <span class="text-rose-light">Administrator</p>
+                <p class="session-subtext">Login sebagai: <span class="text-rose-light">Administrator</span></p>
             </div>
         </div>
 
@@ -76,45 +79,17 @@
 
     <!-- Stats Dashboard Grid -->
     <div class="stats-grid">
-        <div class="stat-card">
-            <div>
-                <p class="stat-label">Total Pendapatan</p>
-                <h4 id="stat-revenue" class="stat-value">Rp <?= number_format($total_pendapatan, 0, ',', '.') ?></h4>
+        <?php foreach ($stats as [$label, $value, $value_class, $icon_class, $icon, $id]): ?>
+            <div class="stat-card">
+                <div>
+                    <p class="stat-label"><?= $label ?></p>
+                    <h4 id="<?= $id ?>" class="<?= $value_class ?>"><?= e($value) ?></h4>
+                </div>
+                <div class="stat-icon <?= $icon_class ?>">
+                    <i class="fa-solid <?= $icon ?>"></i>
+                </div>
             </div>
-            <div class="stat-icon icon-emerald">
-                <i class="fa-solid fa-money-bill-wave"></i>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div>
-                <p class="stat-label">Total Pemesanan</p>
-                <h4 id="stat-total-booking" class="stat-value"><?= $total_pesanan?> Transaksi</h4>
-            </div>
-            <div class="stat-icon icon-rose">
-                <i class="fa-solid fa-calendar-check"></i>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div>
-                <p class="stat-label">Studio Terfavorit</p>
-                <h4 id="stat-fav-studio" class="stat-value-sm"><?= $studio_favorit?></h4>
-            </div>
-            <div class="stat-icon icon-violet">
-                <i class="fa-solid fa-crown"></i>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div>
-                <p class="stat-label">Penggunaan Fotografer</p>
-                <h4 id="stat-photographer" class="stat-value"><?= $persen_fotografer?>% Sesi</h4>
-            </div>
-            <div class="stat-icon icon-amber">
-                <i class="fa-solid fa-camera"></i>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 
     <!-- Booking Management Table -->
@@ -126,8 +101,8 @@
                 </h3>
                 <p class="table-subtitle">Admin dapat memantau, membatalkan, atau mengubah status pembayaran.</p>
             </div>
-            <a href="services/delete_all_data.php" 
-                onclick="return confirm('Yakin ingin menghapus SEMUA data pemesanan?')" 
+            <a href="services/delete_all_data.php"
+                onclick="return confirm('Yakin ingin menghapus SEMUA data pemesanan?')"
                 class="btn-reset">
                 <i class="fa-solid fa-trash-can"></i> Reset Data Pemesanan
             </a>
@@ -149,60 +124,41 @@
                 <tbody id="admin-booking-rows" class="divide-y divide-slate-100">
                     <?php if (empty($bookings)): ?>
                         <tr>
-                            <td colspan="7" class="px-4 py-8 text-center text-slate-400">
-                                Belum ada data pemesanan.
-                            </td>
+                            <td colspan="7" class="empty-state">Belum ada data pemesanan.</td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($bookings as $row): ?>
                             <tr class="hover:bg-slate-50 transition-colors">
-                                <!-- 1. ID / Booking Code -->
-                                <td class="px-4 py-3.5 font-mono font-semibold text-rose-600">
-                                    <?= htmlspecialchars($row['kode_booking']) ?>
+                                <td class="font-mono font-semibold text-rose-600"><?= e($row['kode_booking']) ?></td>
+
+                                <td>
+                                    <div class="font-semibold text-slate-800"><?= e($row['nama_pemesan']) ?></div>
+                                    <div class="text-xs text-slate-400"><?= e($row['no_hp']) ?></div>
                                 </td>
 
-                                <!-- 2. Nama Client -->
-                                <td class="px-4 py-3.5">
-                                    <div class="font-semibold text-slate-800"><?= htmlspecialchars($row['nama_pemesan']) ?></div>
-                                    <div class="text-xs text-slate-400"><?= htmlspecialchars($row['no_hp']) ?></div>
-                                </td>
+                                <td class="font-medium text-slate-700"><?= e($row['nama_studio']) ?></td>
 
-                                <!-- 3. Ruangan Studio -->
-                                <td class="px-4 py-3.5 font-medium text-slate-700">
-                                    <?= htmlspecialchars($row['nama_studio']) ?>
-                                </td>
-
-                                <!-- 4. Jadwal & Slot Jam -->
-                                <td class="px-4 py-3.5">
+                                <td>
                                     <div class="font-medium text-slate-800"><?= date('d M Y', strtotime($row['tanggal'])) ?></div>
-                                    <div class="text-xs text-slate-500"><?= htmlspecialchars($row['slot_waktu']) ?></div>
+                                    <div class="text-xs text-slate-500"><?= e($row['slot_waktu']) ?></div>
                                 </td>
 
-                                <!-- 5. Detail Add-Ons -->
-                                <td class="px-4 py-3.5 text-xs text-slate-600">
-                                    <?= htmlspecialchars($row['detail_addons']) ?>
-                                </td>
+                                <td class="text-xs text-slate-600"><?= e($row['detail_addons']) ?></td>
 
-                                <!-- 6. Total Harga -->
-                                <td class="px-4 py-3.5 font-bold text-slate-800">
-                                    Rp <?= number_format($row['total_harga'], 0, ',', '.') ?>
-                                </td>
+                                <td class="font-bold text-slate-800"><?= rupiah($row['total_harga']) ?></td>
 
-                                <!-- 7. Aksi -->
-                                <td class="px-4 py-3.5 text-center">
+                                <td class="text-center">
                                     <div class="flex items-center justify-center gap-3">
-                                        <!-- Tombol Edit (Arahkan ke halaman edit dengan parameter kode_booking) -->
-                                        <a href="form_edit.php?kode=<?= urlencode($row['kode_booking']) ?>" 
-                                        class="text-amber-600 hover:text-amber-800 font-semibold text-xs inline-flex items-center gap-1">
+                                        <a href="form_edit.php?kode=<?= urlencode($row['kode_booking']) ?>"
+                                           class="text-amber-600 hover:text-amber-800 font-semibold text-xs inline-flex items-center gap-1">
                                             <i class="fa-solid fa-pen-to-square"></i> Edit
                                         </a>
 
                                         <span class="text-slate-300">|</span>
 
-                                        <!-- Tombol Hapus -->
-                                        <a href="services/delete_data.php?kode=<?= urlencode($row['kode_booking']) ?>" 
-                                        onclick="return confirm('Hapus pemesanan ini?')" 
-                                        class="text-rose-500 hover:text-rose-700 font-semibold text-xs inline-flex items-center gap-1">
+                                        <a href="services/delete_data.php?kode=<?= urlencode($row['kode_booking']) ?>"
+                                           onclick="return confirm('Hapus pemesanan ini?')"
+                                           class="text-rose-500 hover:text-rose-700 font-semibold text-xs inline-flex items-center gap-1">
                                             <i class="fa-solid fa-trash"></i> Hapus
                                         </a>
                                     </div>

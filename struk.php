@@ -1,5 +1,6 @@
 <?php
-    include("connection.php");
+    include_once("connection.php");
+    include_once("includes/helpers.php");
 
     $kode = $_GET['kode'];
     $stmt = $connect->prepare("
@@ -13,7 +14,7 @@
     $stmt->execute();
     $strukData = $stmt->get_result()->fetch_assoc();
 
-    if ($strukData) {
+    if ($strukData){
         $stmtAddon = $connect->prepare("
             SELECT a.nama_addon, a.harga 
             FROM pemesanan_addon pa
@@ -26,7 +27,7 @@
 
         $totalBayar = (int)$strukData['harga_per_jam'];
         $namaAddons = [];
-        foreach ($addonsDipilih as $ad) {
+        foreach ($addonsDipilih as $ad){
             $totalBayar += (int)$ad['harga'];
             $namaAddons[] = $ad['nama_addon'];
         }
@@ -34,13 +35,17 @@
         $strukData['addons_text'] = !empty($namaAddons) ? implode(', ', $namaAddons) : 'Tidak ada';
         $strukData['total_bayar'] = $totalBayar;
     }
+
+    $rows = [
+        ['Kode Booking:',    $strukData['kode_booking'],                                'detail-val font-bold',               'font-mono'],
+        ['Nama Client:',     $strukData['nama_pemesan'],                                'detail-val font-semibold',           ''],
+        ['Ruangan Studio:',  $strukData['nama_studio'],                                 'detail-val font-semibold',           ''],
+        ['Tanggal Sesi:',    date('d M Y', strtotime($strukData['tanggal'])),           'detail-val font-semibold',           ''],
+        ['Slot Waktu:',      $strukData['slot_waktu'] . ' WIB',                         'detail-val-accent font-bold',        ''],
+        ['Layanan Add-ons:', $strukData['addons_text'],                                 'detail-val font-semibold text-right', ''],
+    ];
 ?>
 
-
-<head>
-    <link rel="stylesheet" href="style/struk.css">
-    <title>Document</title>
-</head>
 
 <div id="receipt-modal" class="modal-overlay">
     <div class="modal-card">
@@ -56,33 +61,15 @@
             </div>
 
             <div class="receipt-details">
-                <div class="detail-row font-mono">
-                    <span class="detail-label">Kode Booking:</span>
-                    <span class="detail-val font-bold"><?= htmlspecialchars($strukData['kode_booking']) ?></span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Nama Client:</span>
-                    <span class="detail-val font-semibold"><?= htmlspecialchars($strukData['nama_pemesan']) ?></span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Ruangan Studio:</span>
-                    <span class="detail-val font-semibold"><?= htmlspecialchars($strukData['nama_studio']) ?></span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Tanggal Sesi:</span>
-                    <span class="detail-val font-semibold"><?= date('d M Y', strtotime($strukData['tanggal'])) ?></span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Slot Waktu:</span>
-                    <span class="detail-val-accent font-bold"><?= htmlspecialchars($strukData['slot_waktu']) ?> WIB</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Layanan Add-ons:</span>
-                    <span class="detail-val font-semibold text-right"><?= htmlspecialchars($strukData['addons_text']) ?></span>
-                </div>
+                <?php foreach ($rows as [$label, $value, $value_class, $row_class]): ?>
+                    <div class="detail-row <?= $row_class ?>">
+                        <span class="detail-label"><?= $label ?></span>
+                        <span class="<?= $value_class ?>"><?= e($value) ?></span>
+                    </div>
+                <?php endforeach; ?>
                 <div class="detail-total">
                     <span class="total-label">Total Pembayaran:</span>
-                    <span class="total-val">Rp <?= number_format($strukData['total_bayar'], 0, ',', '.') ?></span>
+                    <span class="total-val"><?= rupiah($strukData['total_bayar']) ?></span>
                 </div>
             </div>
         </div>

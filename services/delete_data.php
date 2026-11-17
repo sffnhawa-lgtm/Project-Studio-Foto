@@ -1,40 +1,30 @@
 <?php
     session_start();
     include("../connection.php");
+    include("../includes/helpers.php");
 
-    // Wajib cek session admin
-    if (empty($_SESSION["admin"])) {
-        header("Location: ../index.php?page=admin");
-        exit;
-    }
+    require_admin();
 
     $kode = $_GET['kode'] ?? '';
 
-    if (!empty($kode)) {
-        // 1. Cari id pemesanan berdasarkan kode_booking
+    if (!empty($kode)){
         $stmt = $connect->prepare("SELECT id FROM pemesanan WHERE kode_booking = ?");
         $stmt->bind_param("s", $kode);
         $stmt->execute();
         $data = $stmt->get_result()->fetch_assoc();
 
-        if ($data) {
+        if ($data){
             $pemesanan_id = $data['id'];
 
-            // 2. Hapus relasi add-on terlebih dahulu
-            $del_addon = $connect->prepare("DELETE FROM pemesanan_addon WHERE pemesanan_id = ?");
-            $del_addon->bind_param("i", $pemesanan_id);
-            $del_addon->execute();
+            delete_addons($connect, $pemesanan_id);
 
-            // 3. Hapus data utama di tabel pemesanan
             $del_main = $connect->prepare("DELETE FROM pemesanan WHERE id = ?");
             $del_main->bind_param("i", $pemesanan_id);
             $del_main->execute();
 
-            header("Location: ../index.php?page=admin&hapus=sukses");
-            exit;
+            redirect("../index.php?page=admin&hapus=sukses");
         }
     }
 
-    header("Location: ../index.php?page=admin&hapus=gagal");
-    exit;
+    redirect("../index.php?page=admin&hapus=gagal");
 ?>

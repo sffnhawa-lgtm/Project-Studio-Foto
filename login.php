@@ -1,8 +1,3 @@
-<head>
-    <link rel="stylesheet" href="style/login.css">
-    <title>Document</title>
-</head>
-
 <div id="admin-login-view" class="login-card">
     <div class="login-header">
         <div class="login-icon-box">
@@ -27,12 +22,12 @@
             <input type="password" id="admin-pass-input" name="password" required value="admin1234" class="form-input">
         </div>
 
-        <label class="remember-label">
-            <input type="checkbox" id="admin-remember-cookie" name="remember" checked class="remember-checkbox">
-            <span class="remember-text">Ingat Saya</span>
+        <label class="check-label">
+            <input type="checkbox" id="admin-remember-cookie" name="remember" checked class="check-input">
+            <span class="check-text">Ingat Saya</span>
         </label>
 
-        <button type="submit" class="btn-submit">
+        <button type="submit" class="submit-btn">
             <i class="fa-solid fa-right-to-bracket"></i> Masuk
         </button>
     </form>

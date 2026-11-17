@@ -1,14 +1,30 @@
-/* File: ui/style/base.css - gaya umum semua halaman */
+:root {
+    --rose: #e11d48;
+    --rose-dark: #be123c;
+    --rose-soft: #fff1f2;
+    --rose-border: #fecdd3;
+    --ink: #0f172a;
+    --ink-2: #1e293b;
+    --muted: #64748b;
+    --faint: #94a3b8;
+    --line: #e2e8f0;
+    --surface: #f8fafc;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-rose: 0 10px 15px -3px rgba(225, 29, 72, 0.3);
+}
+
 body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
+/* ----- Utilitas ----- */
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-.glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); }
+.text-rose       { color: var(--rose); font-weight: 700; }
+.text-rose-light { color: #fb7185; font-family: 'Fira Code', monospace; }
 
-/* Cetak struk: hanya tampilkan modal struk */
+/* ----- Cetak struk ----- */
 @media print {
-    body > *:not(#receipt-modal) { display: none !important; }
+    body > *:not(#receipt-modal){ display: none !important; }
     #receipt-modal { position: static !important; background: none !important; backdrop-filter: none !important; padding: 0 !important; }
     #receipt-modal .no-print { display: none !important; }
 }

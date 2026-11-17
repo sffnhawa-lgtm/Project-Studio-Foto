@@ -1,9 +1,10 @@
 <?php
     session_start();
+    include("../includes/helpers.php");
+
     session_unset();
     session_destroy();
     setcookie("remember_admin", "", time() - 3600, "/");
 
-    header("Location: ../index.php?page=login");
-    exit;
+    redirect("../index.php?page=login");
 ?>
