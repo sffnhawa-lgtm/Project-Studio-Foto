@@ -57,8 +57,8 @@
             <input type="text" id="search-input" placeholder="Cari nama studio atau tema..." class="search-input">
         </div>
         <div class="theme-filter-list hide-scrollbar">
-            <?php foreach ($themes as $tema): ?>
-                <?php $is_active = ($tema === 'Semua Tema') ? ($kategori === '') : ($kategori === $tema); ?>
+            <?php foreach ($themes as $tema): 
+                $is_active = ($tema === 'Semua Tema') ? ($kategori === '') : ($kategori === $tema); ?>
                 <button onclick="filter_by_theme(this)" class="theme-filter-btn <?= $is_active ? 'active' : '' ?>"><?= e($tema) ?></button>
             <?php endforeach; ?>
         </div>
@@ -69,10 +69,11 @@
         <div class="studio-section-header">
             <h3><i class="fa-solid fa-sliders"></i> Pilihan Ruangan Studio</h3>
         </div>
-        <div id="studio-grid" class="studio-grid">
-            <?php foreach ($studios as $s): ?>
-                <?php include 'components/studio_card.php'; ?>
-            <?php endforeach; ?>
+        <div id="studio-grid" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">">
+            <?php foreach ($studios as $s): 
+                include 'components/studio_card.php'; 
+                endforeach; 
+            ?>
         </div>
     </div>
 

@@ -1,23 +1,29 @@
-<div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden hover:shadow-lg transition-all flex flex-col justify-between group">
-    <div>
-        <div class="relative h-44 overflow-hidden bg-slate-900">
-            <img src="<?= e($s['gambar']) ?>" alt="<?= e($s['nama_studio']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90">
-            <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-rose-300 text-[11px] font-bold px-2.5 py-1 rounded-full border border-rose-500/30">
+<div class="col">
+    <div class="card h-100 shadow-sm rounded-4 overflow-hidden">
+        <div class="position-relative bg-dark" style="height: 11rem;">
+            <img src="<?= e($s['gambar']) ?>" alt="<?= e($s['nama_studio']) ?>" class="w-100 h-100 object-fit-cover opacity-75">
+            <span class="badge rounded-pill bg-dark bg-opacity-75 text-danger-subtle border border-danger border-opacity-25 position-absolute top-0 end-0 m-3">
                 <?= e($s['tema']) ?>
             </span>
         </div>
-        <div class="p-5">
-            <h4 class="font-extrabold text-base text-slate-800"><?= e($s['nama_studio']) ?></h4>
-            <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-users text-rose-500 mr-1"></i> Kapasitas Maks: <?= (int)$s['kapasitas_maks'] ?> orang</p>
-            <div class="mt-4 pt-3 border-t border-slate-100 flex items-baseline justify-between">
-                <span class="text-xs text-slate-400 font-medium">Tarif Sewa</span>
-                <span class="text-base font-extrabold text-rose-600"><?= rupiah($s['harga_per_jam']) ?> <span class="text-xs font-normal text-slate-400">/jam</span></span>
+
+        <div class="card-body p-4">
+            <h4 class="fs-6 fw-bolder mb-1"><?= e($s['nama_studio']) ?></h4>
+            <p class="small text-secondary mb-0">
+                <i class="fa-solid fa-users text-danger me-1"></i> Kapasitas Maks: <?= (int)$s['kapasitas_maks'] ?> orang
+            </p>
+            <div class="d-flex justify-content-between align-items-baseline border-top mt-3 pt-3">
+                <span class="small text-secondary">Tarif Sewa</span>
+                <span class="fw-bolder text-danger"><?= rupiah($s['harga_per_jam']) ?> <small class="fw-normal text-secondary">/jam</small></span>
             </div>
         </div>
+
+        <div class="card-footer bg-transparent border-0 p-4 pt-0">
+            <button type="button" onclick="select_studio(<?= (int)$s['id'] ?>)"
+                    class="btn btn-dark btn-sm w-100 fw-bold rounded-3 py-2 d-flex align-items-center justify-content-center gap-2"
+                    style="--bs-btn-hover-bg: var(--bs-danger); --bs-btn-hover-border-color: var(--bs-danger);">
+                <i class="fa-solid fa-calendar-plus"></i> Pilih Studio Ini
+            </button>
+        </div>
     </div>
-    <div class="p-5 pt-0">
-        <button onclick="select_studio(<?= (int)$s['id'] ?>)" class="w-full bg-slate-900 hover:bg-rose-600 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-sm">
-            <i class="fa-solid fa-calendar-plus"></i> Pilih Studio Ini
-        </button>
-    </div>
-</div>
+</div> 

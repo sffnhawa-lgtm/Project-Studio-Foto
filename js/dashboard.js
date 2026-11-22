@@ -8,7 +8,7 @@ document.getElementById('search-input').addEventListener('input', function (){
 
     document.querySelectorAll('#studio-grid > div').forEach(card => {
         const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(keyword) ? 'flex' : 'none';
+        card.style.display = text.includes(keyword) ? '' : 'none';
     });
 });
 
