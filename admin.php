@@ -27,19 +27,19 @@
     $hitung_studio    = [];
     $sesi_fotografer  = 0;
 
-    foreach ($bookings as $b){
+    foreach ($bookings as $b) {
         $total_pendapatan += $b['total_harga'];
 
         $nama_st = $b['nama_studio'];
         $hitung_studio[$nama_st] = ($hitung_studio[$nama_st] ?? 0) + 1;
 
-        if (stripos($b['detail_addons'], 'Fotografer') !== false){
+        if (stripos($b['detail_addons'], 'Fotografer') !== false) {
             $sesi_fotografer++;
         }
     }
 
     $studio_favorit = '-';
-    if (!empty($hitung_studio)){
+    if (!empty($hitung_studio)) {
         arsort($hitung_studio);
         $studio_favorit = array_key_first($hitung_studio);
     }
@@ -56,7 +56,6 @@
     ];
 ?>
 
-
 <div id="admin-dashboard-view" class="admin-dashboard">
     <!-- Session Active Header Badge -->
     <div class="session-banner">
@@ -66,7 +65,7 @@
             </div>
             <div>
                 <h4 class="session-title">Statistik & Manajemen Booking</h4>
-                <p class="session-subtext">Login sebagai: <span class="text-rose-light">Administrator</span></p>
+                <p class="session-subtext">Welcome back, <span class="text-rose-light"><?= e($_SESSION["username"] ?? 'Administrator') ?></span></p>
             </div>
         </div>
 

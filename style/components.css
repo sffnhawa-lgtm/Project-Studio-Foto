@@ -64,8 +64,22 @@
 .credentials-hint p { margin: 0.15rem 0; }
 .hint-title { font-weight: 700; color: var(--ink-2); }
 
+/* Pesan sukses / error di form */
+.form-alert {
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.form-alert-error   { background-color: var(--rose-soft); color: var(--rose-dark); border: 1px solid var(--rose-border); }
+.form-alert-success { background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
 
-/* Tombol utama: login, form booking, hero, struk */
+.form-footer { text-align: center; font-size: 0.75rem; color: var(--muted); margin-top: 1rem; }
+.form-footer a { color: var(--rose); font-weight: 700; }
+
+/* ----- Tombol ----- */
+/* Tombol utama (rose): login, form booking, hero, struk */
 .submit-btn, .btn-hero-primary, .btn-primary {
     background-color: var(--rose);
     color: #ffffff;
@@ -110,7 +124,7 @@
 }
 .btn-hero-secondary:hover { background: var(--ink-2); }
 
-/* Tombol struk */
+/* Tombol modal struk */
 .btn {
     flex: 1;
     color: #ffffff;
@@ -204,7 +218,7 @@
 .form-select { font-weight: 600; }
 .date-input  { background-color: #ffffff; padding: 0.75rem; }
 
-/* Checkbox "ingat saya" */
+/* Checkbox "ingat saya" (login & form booking) */
 .check-label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding-top: 0.25rem; }
 .check-input { width: 1rem; height: 1rem; accent-color: var(--rose); border-radius: 0.25rem; }
 .check-text {
@@ -460,7 +474,7 @@
 .total-val   { font-weight: 900; color: var(--rose); }
 
 /* ----- Responsive ----- */
-@media (min-width: 640px){
+@media (min-width: 640px) {
     .booking-section { padding: 2.5rem; }
     .booking-title   { font-size: 1.875rem; }
     .modal-card      { padding: 2rem; }

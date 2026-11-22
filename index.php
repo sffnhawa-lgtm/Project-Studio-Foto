@@ -1,9 +1,18 @@
 <?php
     session_start();
+    include_once("connection.php");
     include_once("includes/helpers.php");
 
-    if (empty($_SESSION["admin"]) && isset($_COOKIE["remember_admin"])){
-        $_SESSION["admin"] = TRUE;
+    if (empty($_SESSION["admin"]) && !empty($_COOKIE["remember_admin"])) {
+        $stmt = $connect->prepare("SELECT username FROM users WHERE username = ?");
+        $stmt->bind_param("s", $_COOKIE["remember_admin"]);
+        $stmt->execute();
+        $user_cookie = $stmt->get_result()->fetch_assoc();
+
+        if ($user_cookie) {
+            $_SESSION["admin"]    = TRUE;
+            $_SESSION["username"] = $user_cookie["username"];
+        }
     }
 
     $page       = $_GET['page'] ?? 'dashboard';

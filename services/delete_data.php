@@ -7,13 +7,13 @@
 
     $kode = $_GET['kode'] ?? '';
 
-    if (!empty($kode)){
+    if (!empty($kode)) {
         $stmt = $connect->prepare("SELECT id FROM pemesanan WHERE kode_booking = ?");
         $stmt->bind_param("s", $kode);
         $stmt->execute();
         $data = $stmt->get_result()->fetch_assoc();
 
-        if ($data){
+        if ($data) {
             $pemesanan_id = $data['id'];
 
             delete_addons($connect, $pemesanan_id);
@@ -21,6 +21,8 @@
             $del_main = $connect->prepare("DELETE FROM pemesanan WHERE id = ?");
             $del_main->bind_param("i", $pemesanan_id);
             $del_main->execute();
+
+            log_activity($connect, 'hapus', "Hapus booking $kode");
 
             redirect("../index.php?page=admin&hapus=sukses");
         }

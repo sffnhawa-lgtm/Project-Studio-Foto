@@ -6,6 +6,12 @@
         <h3 class="login-title">Login Admin Studio</h3>
     </div>
 
+    <?php if (isset($_GET['registered'])): ?>
+        <div class="form-alert form-alert-success">Akun berhasil dibuat. Silakan login.</div>
+    <?php elseif (isset($_GET['error'])): ?>
+        <div class="form-alert form-alert-error">Username atau password salah.</div>
+    <?php endif; ?>
+
     <div class="credentials-hint">
         <p class="hint-title"><i class="fa-solid fa-key text-rose"></i> Demo Account:</p>
         <p>Username: <span class="text-rose">admin</span></p>
@@ -31,4 +37,6 @@
             <i class="fa-solid fa-right-to-bracket"></i> Masuk
         </button>
     </form>
+
+    <p class="form-footer">Belum punya akun? <a href="?page=register">Daftar</a></p>
 </div>
