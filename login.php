@@ -12,11 +12,6 @@
         <div class="form-alert form-alert-error">Username atau password salah.</div>
     <?php endif; ?>
 
-    <div class="credentials-hint">
-        <p class="hint-title"><i class="fa-solid fa-key text-rose"></i> Demo Account:</p>
-        <p>Username: <span class="text-rose">admin</span></p>
-        <p>Password: <span class="text-rose">admin1234</span></p>
-    </div>
 
     <form method="POST" action="services/process_login.php" class="login-form">
         <div>
