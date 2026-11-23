@@ -1,16 +1,17 @@
-<div id="toast-container" class="fixed bottom-5 right-5 z-50 max-w-md w-full px-4 hidden transition-all duration-300 transform translate-y-2">
-    <div id="toast-box" class="p-4 rounded-2xl border flex items-center justify-between shadow-2xl bg-white/90 backdrop-blur-md">
-        <div class="flex items-start space-x-3">
-            <div id="toast-icon-bg" class="p-2 rounded-xl text-white">
-                <i id="toast-icon" class="text-lg"></i>
+<!-- Notifikasi (toast): disembunyikan dengan d-none, ditampilkan lewat showToast() di js/dashboard.js -->
+<div id="toast-container" class="position-fixed bottom-0 end-0 w-100 p-3 d-none" style="max-width: 28rem; z-index: 1080;">
+    <div class="d-flex align-items-center justify-content-between gap-3 p-3 bg-white border rounded-4 shadow-lg">
+
+        <div class="d-flex align-items-start gap-3">
+            <div id="toast-icon-bg" class="d-flex align-items-center justify-content-center rounded-3 text-white flex-shrink-0" style="width: 2.5rem; height: 2.5rem;">
+                <i id="toast-icon"></i>
             </div>
             <div>
-                <h5 id="toast-title" class="font-bold text-sm text-slate-800"></h5>
-                <p id="toast-message" class="text-xs text-slate-600 leading-relaxed mt-0.5"></p>
+                <h5 id="toast-title" class="fw-bold small text-dark mb-0"></h5>
+                <p id="toast-message" class="small text-secondary mb-0"></p>
             </div>
         </div>
-        <button type="button" onclick="hide_toast()" class="text-slate-400 hover:text-slate-600 p-1 ml-3">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+
+        <button type="button" class="btn-close" aria-label="Tutup" onclick="hide_toast()"></button>
     </div>
 </div>

@@ -69,7 +69,7 @@
         <div class="studio-section-header">
             <h3><i class="fa-solid fa-sliders"></i> Pilihan Ruangan Studio</h3>
         </div>
-        <div id="studio-grid" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">">
+        <div id="studio-grid" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
             <?php foreach ($studios as $s): 
                 include 'components/studio_card.php'; 
                 endforeach; 

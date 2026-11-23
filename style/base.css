@@ -25,6 +25,12 @@ img { display: block; }
 button {cursor: pointer; }
 
 
+.font-mono     { font-family: 'Fira Code', monospace; }
+.font-semibold { font-weight: 600; }
+.font-bold     { font-weight: 700; }
+.text-right    { text-align: right; }
+.text-center   { text-align: center; }
+
 /* ----- Utilitas ----- */
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

@@ -31,25 +31,24 @@
 <head>
     <?php include 'includes/head.php'; ?>
 </head>
-<body>
-    <header class="bg-slate-900 text-white shadow-2xl sticky top-0 z-40 border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row justify-between items-center gap-4">
-            <a href="?page=dashboard" class="flex items-center space-x-3.5">
-                <div class="bg-gradient-to-tr from-rose-500 via-pink-500 to-violet-600 text-white p-2.5 rounded-2xl shadow-lg shadow-rose-500/20 font-bold text-xl flex items-center justify-center w-11 h-11">
+
+<body class="site-body">
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="?page=dashboard" class="brand-link">
+                <div class="brand-icon">
                     <i class="fa-solid fa-camera-retro"></i>
                 </div>
                 <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-rose-400 via-pink-300 to-violet-400 bg-clip-text text-transparent">Lumina Studio</h1>
-                    </div>
-                    <p class="text-xs text-slate-400">Integrated Photo Studio Management</p>
+                    <h1 class="brand-name">Lumina Studio</h1>
+                    <p class="brand-tagline">Integrated Photo Studio Management</p>
                 </div>
             </a>
 
-            <nav class="flex bg-slate-800/90 p-1.5 rounded-2xl border border-slate-700/60 text-xs sm:text-sm font-medium overflow-x-auto max-w-full hide-scrollbar">
+            <nav class="main-nav hide-scrollbar">
                 <?php foreach ($menu as $key => [$label, $icon]): ?>
-                    <a href="?page=<?= $key ?>" class="px-4 py-2 rounded-xl transition-all whitespace-nowrap flex items-center <?= ($key === $active_menu) ? 'shadow-sm bg-rose-600 text-white font-semibold' : 'text-slate-400 hover:text-white' ?>">
-                        <i class="fa-solid <?= $icon ?> mr-1.5"></i> <?= $label ?>
+                    <a href="?page=<?= $key ?>" class="nav-link <?= ($key === $active_menu) ? 'active' : '' ?>">
+                        <i class="fa-solid <?= $icon ?>"></i> <?= $label ?>
                     </a>
                 <?php endforeach; ?>
             </nav>
