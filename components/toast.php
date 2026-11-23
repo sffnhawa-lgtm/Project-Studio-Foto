@@ -1,4 +1,3 @@
-<!-- Notifikasi (toast): disembunyikan dengan d-none, ditampilkan lewat showToast() di js/dashboard.js -->
 <div id="toast-container" class="position-fixed bottom-0 end-0 w-100 p-3 d-none" style="max-width: 28rem; z-index: 1080;">
     <div class="d-flex align-items-center justify-content-between gap-3 p-3 bg-white border rounded-4 shadow-lg">
 
