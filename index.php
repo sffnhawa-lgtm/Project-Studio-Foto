@@ -57,13 +57,17 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
         <?php
-        if ($page === 'admin'){
-            include (empty($_SESSION["admin"]) ? 'login.php' : 'admin.php');
+        if (in_array($page, ['admin', 'register'])) {
+            if (!empty($_SESSION["admin"])) {
+                include 'admin.php';
+            } else {
+                include ($page === 'register' ? 'register.php' : 'login.php');
+            }
         } else {
             include 'dashboard.php';
         }
 
-        if (!empty($_GET['kode'])){
+        if (!empty($_GET['kode'])) {
             include 'struk.php';
         }
         ?>
