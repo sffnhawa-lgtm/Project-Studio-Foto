@@ -12,12 +12,24 @@
     $stmt->execute();
     $user = $stmt->get_result()->fetch_assoc();
 
-    if ($user && (password_verify($password, $user['password']) || $password === $user['password'])) {
+    if ($user && password_verify($password, $user['password'])) {
         $_SESSION["admin"]    = TRUE;
         $_SESSION["username"] = $user["username"];
 
         if ($is_remembered) {
-            setcookie("remember_admin", $user["username"], time() + (86400 * 1), "/");
+            $token = bin2hex(random_bytes(32));
+            $hash  = hash('sha256', $token);
+
+            $upd = $connect->prepare("UPDATE users SET remember_token = ? WHERE username = ?");
+            $upd->bind_param("ss", $hash, $user["username"]);
+            $upd->execute();
+
+            setcookie("remember_admin", $token, [
+                "expires"  => time() + 86400,
+                "path"     => "/",
+                "httponly" => true,
+                "samesite" => "Lax",
+            ]);
         }
 
         redirect("../index.php?page=admin");

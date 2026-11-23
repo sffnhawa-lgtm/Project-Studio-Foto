@@ -4,8 +4,10 @@
     include_once("includes/helpers.php");
 
     if (empty($_SESSION["admin"]) && !empty($_COOKIE["remember_admin"])) {
-        $stmt = $connect->prepare("SELECT username FROM users WHERE username = ?");
-        $stmt->bind_param("s", $_COOKIE["remember_admin"]);
+        $token_hash = hash('sha256', $_COOKIE["remember_admin"]);
+
+        $stmt = $connect->prepare("SELECT username FROM users WHERE remember_token = ? AND remember_expires > NOW()");
+        $stmt->bind_param("s", $token_hash);
         $stmt->execute();
         $user_cookie = $stmt->get_result()->fetch_assoc();
 
